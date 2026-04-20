@@ -79,23 +79,33 @@ function Import-RepoSkills {
         [Parameter(Mandatory = $true)]
         [string]$CompanyId,
         [Parameter(Mandatory = $true)]
-        [string]$RepoUrl
+        [string[]]$Sources
     )
 
-    try {
-        return [pscustomobject]@{
-            repoUrl = $RepoUrl
-            ok = $true
-            result = Invoke-PaperclipJson -Method POST -Path "/api/companies/$CompanyId/skills/import" -Body @{ source = $RepoUrl }
-            error = $null
+    $attempts = @()
+    foreach ($source in $Sources) {
+        try {
+            return [pscustomobject]@{
+                source = $source
+                ok = $true
+                result = Invoke-PaperclipJson -Method POST -Path "/api/companies/$CompanyId/skills/import" -Body @{ source = $source }
+                error = $null
+                attempts = $attempts
+            }
+        } catch {
+            $attempts += [pscustomobject]@{
+                source = $source
+                error = $_.Exception.Message
+            }
         }
-    } catch {
-        return [pscustomobject]@{
-            repoUrl = $RepoUrl
-            ok = $false
-            result = $null
-            error = $_.Exception.Message
-        }
+    }
+
+    return [pscustomobject]@{
+        source = $Sources[0]
+        ok = $false
+        result = $null
+        error = ($attempts | Select-Object -Last 1).error
+        attempts = $attempts
     }
 }
 
@@ -104,11 +114,11 @@ $companySpecs = @(
         CompanyName = "Personal"
         ProjectName = "Private Core Operating System"
         WorkspaceAdds = @()
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/paperclip-personal-admin",
-            "https://github.com/Ola-Turmo/paperclip-private-life",
-            "https://github.com/Ola-Turmo/paperclip-personal-health",
-            "https://github.com/Ola-Turmo/paperclip-relationships"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-personal-admin", "https://github.com/Ola-Turmo/paperclip-personal-admin") },
+            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-private-life", "https://github.com/Ola-Turmo/paperclip-private-life") },
+            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-personal-health", "https://github.com/Ola-Turmo/paperclip-personal-health") },
+            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-relationships", "https://github.com/Ola-Turmo/paperclip-relationships") }
         )
     },
     @{
@@ -122,8 +132,8 @@ $companySpecs = @(
                 RepoPurpose = "live Kurs.ing product and repo-native skills"
             }
         )
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/kurs.ing"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/kurs.ing", "https://github.com/Ola-Turmo/kurs.ing") }
         )
     },
     @{
@@ -137,8 +147,8 @@ $companySpecs = @(
                 RepoPurpose = "live Gatareba product and compliance skills"
             }
         )
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/Gatareba.ge"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/Gatareba.ge", "https://github.com/Ola-Turmo/Gatareba.ge") }
         )
     },
     @{
@@ -152,8 +162,8 @@ $companySpecs = @(
                 RepoPurpose = "live Lovkode product and legal-matter skills"
             }
         )
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/lovkode.no"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/lovkode.no", "https://github.com/Ola-Turmo/lovkode.no") }
         )
     },
     @{
@@ -167,16 +177,16 @@ $companySpecs = @(
                 RepoPurpose = "portfolio repo-universe curation skill"
             }
         )
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/curated-paperclip-plugins"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/curated-paperclip-plugins", "https://github.com/Ola-Turmo/curated-paperclip-plugins") }
         )
     },
     @{
         CompanyName = "EmDash Sidecar SaaS"
         ProjectName = "Sidecar Core Product"
         WorkspaceAdds = @()
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/emdash-astro-sidecar"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/emdash-astro-sidecar", "https://github.com/Ola-Turmo/emdash-astro-sidecar") }
         )
     },
     @{
@@ -190,16 +200,16 @@ $companySpecs = @(
                 RepoPurpose = "live TRT.ge product and authority-growth skills"
             }
         )
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/trt.ge"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/trt.ge", "https://github.com/Ola-Turmo/trt.ge") }
         )
     },
     @{
         CompanyName = "AI Influencer & Spokesperson Company"
         ProjectName = "Agency SaaS Platform"
         WorkspaceAdds = @()
-        ImportRepos = @(
-            "https://github.com/Ola-Turmo/paperclip-plugin-ai-spokesperson-agency"
+        ImportSpecs = @(
+            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-plugin-ai-spokesperson-agency", "https://github.com/Ola-Turmo/paperclip-plugin-ai-spokesperson-agency") }
         )
     }
 )
@@ -224,8 +234,8 @@ foreach ($spec in $companySpecs) {
     }
 
     $imports = @()
-    foreach ($repoUrl in @($spec.ImportRepos)) {
-        $imports += Import-RepoSkills -CompanyId $company.id -RepoUrl $repoUrl
+    foreach ($importSpec in @($spec.ImportSpecs)) {
+        $imports += Import-RepoSkills -CompanyId $company.id -Sources $importSpec.Sources
     }
 
     $report += [pscustomobject]@{
