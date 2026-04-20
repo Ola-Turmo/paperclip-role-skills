@@ -19,6 +19,10 @@ This repo provides:
 - `paperclip-customer-service-triage`
 - `paperclip-people-partners-ops`
 - `paperclip-social-media-command`
+- `paperclip-talent-studio-design`
+- `paperclip-disclosure-rights-guard`
+- `paperclip-client-success-delivery`
+- `paperclip-performance-intelligence`
 
 ## Intended runtime mapping
 
@@ -30,6 +34,14 @@ This repo provides:
 - Customer Service Manager -> `pi_local`
 - People & Partners Manager -> `opencode_local`
 - Social & Media Manager -> `gemini_local`
+- Agency CEO -> `codex_local`
+- Talent Studio Lead -> `gemini_local`
+- Media Systems Lead -> `opencode_local`
+- Service Operations Lead -> `hermes_local`
+- Disclosure & Rights Lead -> `codex_local`
+- Client Success Lead -> `pi_local`
+- Growth Distribution Lead -> `gemini_local`
+- Performance Intelligence Lead -> `opencode_local`
 
 ## Apply to a live Paperclip instance
 
