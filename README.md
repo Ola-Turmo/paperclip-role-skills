@@ -6,7 +6,7 @@ This repo provides:
 
 - a shared `paperclip-operator-core` skill for every company manager
 - role-specific skills for CEO, operations, product & tech, growth & revenue, finance & risk, customer service, people & partners, and social & media
-- a reusable migration script that imports the skill pack into Paperclip companies, upgrades placeholder agents onto real local adapters, and syncs desired skills
+- a reusable migration script that imports the skill pack into Paperclip companies, seeds isolated runtime homes where needed, upgrades placeholder agents onto real local adapters, and syncs desired skills
 
 ## Included skills
 
@@ -32,7 +32,7 @@ This repo provides:
 - Growth & Revenue Manager -> `gemini_local`
 - Finance & Risk Manager -> `codex_local`
 - Customer Service Manager -> `pi_local`
-- People & Partners Manager -> `opencode_local`
+- People & Partners Manager -> `opencode_local` (`anthropic/claude-sonnet-4-5`)
 - Social & Media Manager -> `gemini_local`
 - Agency CEO -> `codex_local`
 - Talent Studio Lead -> `gemini_local`
@@ -66,9 +66,10 @@ The script will:
 
 1. import all role skills into every company
 2. create safe company workspace directories inside the live Paperclip container
-3. upgrade paused org-skeleton agents from `process` placeholders to real local AI adapters
-4. sync role-specific desired skills onto each agent
-5. verify the resulting skill snapshots and write a JSON summary
+3. seed isolated per-agent runtime homes for Gemini, Pi, and OpenCode
+4. upgrade paused org-skeleton agents from `process` placeholders to real local AI adapters
+5. sync role-specific desired skills onto each agent
+6. verify the resulting skill snapshots and write a JSON summary
 
 ## Design goals
 

@@ -92,7 +92,7 @@ ROLE_RUNTIME = {
     "People & Partners Manager": {
         "adapterType": "opencode_local",
         "adapterConfig": {
-            "model": "openai/gpt-5.2",
+            "model": "anthropic/claude-sonnet-4-5",
             "dangerouslySkipPermissions": True,
             "env": {"HOME": "/home/.paperclip"},
         },
@@ -232,6 +232,23 @@ def create_workspace_dir(ssh_target: str, container: str, company_id: str) -> st
     return workspace_dir
 
 
+def seed_agent_runtime_home(ssh_target: str, agent_id: str) -> str:
+    agent_home = f"/home/.paperclip/instances/default/agent-homes/{agent_id}"
+    remote_cmd = (
+        f"mkdir -p {agent_home}/.gemini {agent_home}/.pi/agent {agent_home}/.opencode/skills && "
+        f"rsync -a --exclude history --exclude tmp /home/.paperclip/.gemini/ {agent_home}/.gemini/ >/dev/null 2>&1 || true && "
+        f"rsync -a --exclude skills --exclude sessions --exclude git --exclude fff /home/.paperclip/.pi/agent/ {agent_home}/.pi/agent/ >/dev/null 2>&1 || true && "
+        f"mkdir -p {agent_home}/.pi/agent/skills"
+    )
+    subprocess.run(
+        ["ssh", ssh_target, remote_cmd],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return agent_home
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
@@ -307,6 +324,13 @@ def main() -> int:
                     "cwd": workspace_dir,
                 },
             }
+            if role_config["adapterType"] in {"gemini_local", "pi_local", "opencode_local"}:
+                agent_home = seed_agent_runtime_home(args.ssh_target, agent["id"])
+                env = {"HOME": agent_home}
+                if role_config["adapterType"] == "opencode_local":
+                    env["XDG_CONFIG_HOME"] = "/home/.paperclip/.config"
+                    env["XDG_DATA_HOME"] = "/home/.paperclip/.local/share"
+                patch_body["adapterConfig"]["env"] = env
             patch_resp = session.patch(
                 f"{args.base_url}/api/agents/{agent['id']}",
                 json=patch_body,
