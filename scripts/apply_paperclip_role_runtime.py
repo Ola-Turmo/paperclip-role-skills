@@ -312,21 +312,48 @@ def main() -> int:
                 json=patch_body,
                 timeout=120,
             )
-            patch_resp.raise_for_status()
+            if patch_resp.status_code >= 400:
+                company_result["agents"].append(
+                    {
+                        "name": agent_name,
+                        "adapterType": patch_body["adapterType"],
+                        "status": "patch_failed",
+                        "error": patch_resp.text,
+                    }
+                )
+                continue
 
             sync_resp = session.post(
                 f"{args.base_url}/api/agents/{agent['id']}/skills/sync",
                 json={"desiredSkills": role_config["desiredSkills"]},
                 timeout=180,
             )
-            sync_resp.raise_for_status()
+            if sync_resp.status_code >= 400:
+                company_result["agents"].append(
+                    {
+                        "name": agent_name,
+                        "adapterType": patch_body["adapterType"],
+                        "status": "sync_failed",
+                        "error": sync_resp.text,
+                    }
+                )
+                continue
             sync_result = sync_resp.json()
 
             snapshot_resp = session.get(
                 f"{args.base_url}/api/agents/{agent['id']}/skills",
                 timeout=120,
             )
-            snapshot_resp.raise_for_status()
+            if snapshot_resp.status_code >= 400:
+                company_result["agents"].append(
+                    {
+                        "name": agent_name,
+                        "adapterType": patch_body["adapterType"],
+                        "status": "snapshot_failed",
+                        "error": snapshot_resp.text,
+                    }
+                )
+                continue
             snapshot = snapshot_resp.json()
 
             company_result["agents"].append(
