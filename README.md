@@ -23,6 +23,9 @@ This repo provides:
 - `paperclip-disclosure-rights-guard`
 - `paperclip-client-success-delivery`
 - `paperclip-performance-intelligence`
+- `paperclip-cloudflare-governor`
+- `paperclip-zapier-governor`
+- `paperclip-stripe-governor`
 
 ## Intended runtime mapping
 
@@ -70,6 +73,31 @@ The script will:
 4. upgrade paused org-skeleton agents from `process` placeholders to real local AI adapters
 5. sync role-specific desired skills onto each agent
 6. verify the resulting skill snapshots and write a JSON summary
+
+## Provider governance
+
+This repo also includes provider-governance assets for Cloudflare, Zapier, and Stripe:
+
+- policy map: `references/provider-governance.json`
+- skills:
+  - `paperclip-cloudflare-governor`
+  - `paperclip-zapier-governor`
+  - `paperclip-stripe-governor`
+- VPS sync helper:
+
+```powershell
+pwsh scripts/sync-provider-tooling-to-vps.ps1
+```
+
+That sync helper:
+
+1. pins the provider runtimes to the local inspected versions
+2. copies the local auth/config footprints from this PC where practical
+3. installs guarded wrapper commands on the VPS under `/home/.paperclip/provider-tooling/bin`
+4. exposes:
+   - `paperclip-cloudflare`
+   - `paperclip-zapier`
+   - `paperclip-stripe`
 
 ## Design goals
 
