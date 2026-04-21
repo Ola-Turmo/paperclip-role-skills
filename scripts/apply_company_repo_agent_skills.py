@@ -33,11 +33,13 @@ ROLE_SKILL_ASSIGNMENTS = {
         "CEO": [
             "kurs-ing-support-ops",
             "kurs-ing-customer-communication",
+            "autonomous-host-operator",
             "host-sidecar-rollout",
             "quality-gates",
         ],
         "Operations Manager": [
             "kurs-ing-support-ops",
+            "autonomous-host-operator",
             "host-sidecar-rollout",
             "quality-gates",
         ],
@@ -55,6 +57,7 @@ ROLE_SKILL_ASSIGNMENTS = {
         "Growth & Revenue Manager": [
             "growth-revenue-experiments",
             "kurs-ing-customer-communication",
+            "autonomous-host-operator",
             "publishing",
             "draft-gen",
             "deployed-url-audit",
@@ -106,10 +109,10 @@ ROLE_SKILL_ASSIGNMENTS = {
         "Customer Service Manager": ["trt-ge-authority-growth"],
     },
     "AI Influencer & Spokesperson Company": {
-        "Agency CEO": ["agency-service-ops"],
+        "Agency CEO": ["agency-service-ops", "paperclip-finance-risk-review"],
         "Service Operations Lead": ["agency-service-ops"],
-        "Client Success Lead": ["agency-service-ops"],
-        "Growth Distribution Lead": ["agency-service-ops"],
+        "Client Success Lead": ["agency-service-ops", "paperclip-customer-service-triage", "paperclip-people-partners-ops"],
+        "Growth Distribution Lead": ["agency-service-ops", "paperclip-social-media-command"],
         "Media Systems Lead": ["agency-service-ops"],
         "Talent Studio Lead": ["agency-service-ops"],
     },
