@@ -115,10 +115,10 @@ $companySpecs = @(
         ProjectName = "Private Core Operating System"
         WorkspaceAdds = @()
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-personal-admin", "https://github.com/Ola-Turmo/paperclip-personal-admin") },
-            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-private-life", "https://github.com/Ola-Turmo/paperclip-private-life") },
-            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-personal-health", "https://github.com/Ola-Turmo/paperclip-personal-health") },
-            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-relationships", "https://github.com/Ola-Turmo/paperclip-relationships") }
+            @{ Sources = @("https://github.com/Ola-Turmo/paperclip-personal-admin", "/home/.paperclip/repo-sources/paperclip-personal-admin") },
+            @{ Sources = @("https://github.com/Ola-Turmo/paperclip-private-life", "/home/.paperclip/repo-sources/paperclip-private-life") },
+            @{ Sources = @("https://github.com/Ola-Turmo/paperclip-personal-health", "/home/.paperclip/repo-sources/paperclip-personal-health") },
+            @{ Sources = @("https://github.com/Ola-Turmo/paperclip-relationships", "/home/.paperclip/repo-sources/paperclip-relationships") }
         )
     },
     @{
@@ -133,7 +133,7 @@ $companySpecs = @(
             }
         )
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/kurs.ing", "https://github.com/Ola-Turmo/kurs.ing") }
+            @{ Sources = @("https://github.com/Ola-Turmo/kurs.ing", "/home/.paperclip/repo-sources/kurs.ing") }
         )
     },
     @{
@@ -148,7 +148,7 @@ $companySpecs = @(
             }
         )
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/Gatareba.ge", "https://github.com/Ola-Turmo/Gatareba.ge") }
+            @{ Sources = @("https://github.com/Ola-Turmo/Gatareba.ge", "/home/.paperclip/repo-sources/Gatareba.ge") }
         )
     },
     @{
@@ -163,7 +163,7 @@ $companySpecs = @(
             }
         )
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/lovkode.no", "https://github.com/Ola-Turmo/lovkode.no") }
+            @{ Sources = @("https://github.com/Ola-Turmo/lovkode.no", "/home/.paperclip/repo-sources/lovkode.no") }
         )
     },
     @{
@@ -178,7 +178,7 @@ $companySpecs = @(
             }
         )
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/curated-paperclip-plugins", "https://github.com/Ola-Turmo/curated-paperclip-plugins") }
+            @{ Sources = @("https://github.com/Ola-Turmo/curated-paperclip-plugins", "/home/.paperclip/repo-sources/curated-paperclip-plugins") }
         )
     },
     @{
@@ -186,7 +186,7 @@ $companySpecs = @(
         ProjectName = "Sidecar Core Product"
         WorkspaceAdds = @()
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/emdash-astro-sidecar", "https://github.com/Ola-Turmo/emdash-astro-sidecar") }
+            @{ Sources = @("https://github.com/Ola-Turmo/emdash-astro-sidecar", "/home/.paperclip/repo-sources/emdash-astro-sidecar") }
         )
     },
     @{
@@ -201,7 +201,7 @@ $companySpecs = @(
             }
         )
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/trt.ge", "https://github.com/Ola-Turmo/trt.ge") }
+            @{ Sources = @("https://github.com/Ola-Turmo/trt.ge", "/home/.paperclip/repo-sources/trt.ge") }
         )
     },
     @{
@@ -209,7 +209,7 @@ $companySpecs = @(
         ProjectName = "Agency SaaS Platform"
         WorkspaceAdds = @()
         ImportSpecs = @(
-            @{ Sources = @("/home/.paperclip/repo-sources/paperclip-plugin-ai-spokesperson-agency", "https://github.com/Ola-Turmo/paperclip-plugin-ai-spokesperson-agency") }
+            @{ Sources = @("https://github.com/Ola-Turmo/paperclip-plugin-ai-spokesperson-agency", "/home/.paperclip/repo-sources/paperclip-plugin-ai-spokesperson-agency") }
         )
     }
 )

@@ -120,6 +120,11 @@ def uniq(values):
     return list(OrderedDict.fromkeys(values))
 
 
+def slug_from_key(key: str) -> str | None:
+    parts = key.split("/")
+    return parts[-1] if len(parts) >= 3 else None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
@@ -157,7 +162,14 @@ def main() -> int:
         skills_resp = session.get(f"{args.base_url}/api/companies/{company_id}/skills", timeout=60)
         skills_resp.raise_for_status()
         company_skills = skills_resp.json()
-        slug_to_key = {skill["slug"]: skill["key"] for skill in company_skills}
+        slug_to_key = {}
+        for skill in company_skills:
+            slug = skill["slug"]
+            key = skill["key"]
+            if skill["sourceType"] == "github":
+                slug_to_key[slug] = key
+            elif slug not in slug_to_key:
+                slug_to_key[slug] = key
 
         agents_resp = session.get(f"{args.base_url}/api/companies/{company_id}/agents", timeout=60)
         agents_resp.raise_for_status()
@@ -183,7 +195,14 @@ def main() -> int:
             skill_state_resp.raise_for_status()
             skill_state = skill_state_resp.json()
             current_desired = skill_state.get("desiredSkills", [])
-            merged = uniq(current_desired + extras)
+            canonical_current = []
+            for key in current_desired:
+                slug = slug_from_key(key)
+                if key.startswith("local/") and slug and slug in slug_to_key:
+                    canonical_current.append(slug_to_key[slug])
+                else:
+                    canonical_current.append(key)
+            merged = uniq(canonical_current + extras)
 
             sync_resp = session.post(
                 f"{args.base_url}/api/agents/{agent['id']}/skills/sync?companyId={company_id}",
@@ -196,7 +215,8 @@ def main() -> int:
             company_result["updated"].append(
                 {
                     "agent": agent["name"],
-                    "addedSkills": [key for key in extras if key not in current_desired],
+                    "addedSkills": [key for key in extras if key not in canonical_current],
+                    "replacedLocalKeys": [key for key in current_desired if key.startswith("local/") and slug_from_key(key) in slug_to_key],
                     "desiredSkills": sync_result.get("desiredSkills", merged),
                 }
             )
