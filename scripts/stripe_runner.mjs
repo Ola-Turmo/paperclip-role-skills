@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import os from "node:os";
+import { createRequire } from "node:module";
 import path from "node:path";
 import process from "node:process";
-import Stripe from "stripe";
 
 function parseTomlConfig(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
@@ -60,6 +60,10 @@ async function main() {
 
   const secretKey = process.env.STRIPE_LIVE_MODE === "1" ? profile.live_mode_api_key : profile.test_mode_api_key;
   if (!secretKey) throw new Error("Stripe API key missing from profile");
+
+  const sdkRoot = process.env.STRIPE_SDK_ROOT || "/home/.paperclip/provider-tooling/stripe";
+  const require = createRequire(import.meta.url);
+  const Stripe = require(path.join(sdkRoot, "node_modules", "stripe", "cjs", "stripe.cjs.node.js"));
 
   const allowed = new Set(companyPolicy.allowedOperations || []);
   if (!allowed.has(command)) {

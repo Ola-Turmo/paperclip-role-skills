@@ -7,7 +7,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_POLICY_PATH = ROOT / "references" / "provider-governance.json"
+DEFAULT_POLICY_PATH = Path("/home/.paperclip/provider-tooling/provider-governance.json")
+if not DEFAULT_POLICY_PATH.exists():
+    DEFAULT_POLICY_PATH = ROOT / "references" / "provider-governance.json"
 
 
 def load_policy(path: Path):
