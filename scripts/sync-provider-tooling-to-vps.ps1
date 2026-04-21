@@ -25,6 +25,7 @@ scp $stripeRunnerPath "${SshTarget}:$RemoteRoot/stripe_runner.mjs"
 scp $wranglerConfig "${SshTarget}:$RemoteRoot/cloudflare/home/.wrangler/config/default.toml"
 scp $zapierConfig "${SshTarget}:$RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/Config/config.json"
 scp $stripeConfig "${SshTarget}:$RemoteRoot/stripe/home/.config/stripe/config.toml"
+ssh $SshTarget "cp $RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/Config/config.json $RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/config.json"
 
 $tempScript = Join-Path $env:TEMP "paperclip-provider-tooling-sync.sh"
 $scriptBody = @'

@@ -108,6 +108,8 @@ def main() -> int:
     tool_root = Path("/home/.paperclip/provider-tooling/zapier")
     env = os.environ.copy()
     env["HOME"] = str(tool_root / "home")
+    env["XDG_CONFIG_HOME"] = str(tool_root / "home" / ".config")
+    env["APPDATA"] = str(tool_root / "home" / ".config")
     cli = tool_root / "node_modules" / ".bin" / "zapier-sdk"
     result = subprocess.run([str(cli), *command], env=env)
     return result.returncode
