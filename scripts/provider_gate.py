@@ -43,6 +43,16 @@ def classify_zapier(args: list[str]) -> str:
     command = args[0]
     if command in {"get-profile", "login", "logout"}:
         return "identity"
+    if command in {"apps", "integrations", "describe", "history", "versions", "version", "logs"}:
+        return "catalog"
+    if command in {"env", "users", "team", "analytics", "jobs"}:
+        return "connection-read"
+    if command in {"build", "validate", "init", "scaffold", "convert", "link", "pull"}:
+        return "build"
+    if command in {"invoke"}:
+        return "action-run"
+    if command in {"push", "upload", "register", "promote", "migrate", "deprecate", "legacy", "canary", "delete"}:
+        return "credentials-mutate"
     if command in {
         "list-apps",
         "get-app",
@@ -110,7 +120,8 @@ def main() -> int:
     env["HOME"] = str(tool_root / "home")
     env["XDG_CONFIG_HOME"] = str(tool_root / "home" / ".config")
     env["APPDATA"] = str(tool_root / "home" / ".config")
-    cli = tool_root / "node_modules" / ".bin" / "zapier-sdk"
+    env["ZAPIER_SUPPRESS_DEPRECATION_WARNING"] = "1"
+    cli = tool_root / "node_modules" / ".bin" / "zapier-platform"
     result = subprocess.run([str(cli), *command], env=env)
     return result.returncode
 

@@ -15,18 +15,16 @@ Use Zapier as an integration catalog and controlled automation layer, not as a s
 
 ## Current tool analysis
 
-The copied local Zapier SDK CLI is `@zapier/zapier-sdk-cli 0.38.2`.
+The governed runtime now uses `zapier-platform-cli 18.5.0` with a copied local `~/.zapierrc` deploy key.
 
 Useful command families currently available:
 
-- account/profile
-- app catalog
-- action inspection
-- connection inspection
-- client credential management
-- tables
-- manifest/build helpers
-- MCP surface
+- integrations/apps catalog
+- describe/history/versions/logs
+- env/users/team analytics reads
+- build/validate/init/scaffold/link/pull helpers
+- invoke
+- register/upload/push/promote/migrate/delete lifecycle commands
 
 That means the runtime is strong for:
 
@@ -38,9 +36,13 @@ That means the runtime is strong for:
 
 It is also powerful enough to be dangerous if used loosely:
 
-- `run-action`
-- client credential creation/deletion
-- table mutation
+- `invoke`
+- `register`
+- `upload`
+- `push`
+- `promote`
+- `migrate`
+- `delete`
 
 Those must stay restricted unless a company has a specific approved Zapier operating path.
 
@@ -68,32 +70,40 @@ Short version:
 
 ## Allowed by default
 
-- `get-profile`
-- `list-apps`
-- `get-app`
-- `list-actions`
-- `get-action`
-- `list-input-fields`
-- `list-input-field-choices`
-- `get-input-fields-schema`
-- `list-connections`
-- `get-connection`
-- `find-first-connection`
-- `find-unique-connection`
+- `integrations`
+- `apps`
+- `describe`
+- `history`
+- `versions`
+- `logs`
+- `env`
+- `users`
+- `team`
+- `analytics`
+- `jobs`
 
 ## Allowed only for platform/admin work
 
-- `build-manifest`
-- `generate-app-types`
-- `bundle-code`
-- `mcp`
+- `build`
+- `validate`
+- `init`
+- `scaffold`
+- `convert`
+- `link`
+- `pull`
 
 ## Forbidden by default
 
-- `run-action`
-- `create-client-credentials`
-- `delete-client-credentials`
-- table create/update/delete commands
+- `invoke`
+- `register`
+- `upload`
+- `push`
+- `promote`
+- `migrate`
+- `deprecate`
+- `legacy`
+- `canary`
+- `delete`
 
 ## Practical workflow
 
@@ -105,9 +115,9 @@ Short version:
 ## Wrapper examples
 
 ```bash
-/home/.paperclip/provider-tooling/bin/paperclip-zapier --company PAR list-apps
-/home/.paperclip/provider-tooling/bin/paperclip-zapier --company KUR list-connections gmail
-/home/.paperclip/provider-tooling/bin/paperclip-zapier --company PAR build-manifest gmail stripe
+/home/.paperclip/provider-tooling/bin/paperclip-zapier --company PAR integrations
+/home/.paperclip/provider-tooling/bin/paperclip-zapier --company PAR apps
+/home/.paperclip/provider-tooling/bin/paperclip-zapier --company PAR build
 ```
 
 ## High-value company usecases

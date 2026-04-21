@@ -15,6 +15,7 @@ $stripeRunnerPath = Join-Path $repoRoot "scripts\stripe_runner.mjs"
 
 $wranglerConfig = "C:\Users\heial\.wrangler\config\default.toml"
 $zapierConfig = "C:\Users\heial\AppData\Roaming\zapier-sdk-cli-nodejs\Config\config.json"
+$zapierPlatformConfig = "C:\Users\heial\.zapierrc"
 $stripeConfig = "C:\Users\heial\.config\stripe\config.toml"
 
 ssh $SshTarget "mkdir -p $RemoteRoot/cloudflare/home/.wrangler/config $RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/Config $RemoteRoot/stripe/home/.config/stripe $RemoteRoot/bin"
@@ -26,6 +27,7 @@ scp $wranglerConfig "${SshTarget}:$RemoteRoot/cloudflare/home/.wrangler/config/d
 scp $zapierConfig "${SshTarget}:$RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/Config/config.json"
 scp $stripeConfig "${SshTarget}:$RemoteRoot/stripe/home/.config/stripe/config.toml"
 ssh $SshTarget "cp $RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/Config/config.json $RemoteRoot/zapier/home/.config/zapier-sdk-cli-nodejs/config.json"
+scp $zapierPlatformConfig "${SshTarget}:$RemoteRoot/zapier/home/.zapierrc"
 
 $tempScript = Join-Path $env:TEMP "paperclip-provider-tooling-sync.sh"
 $scriptBody = @'
@@ -45,7 +47,7 @@ if [ ! -f "$ROOT/stripe/package.json" ]; then
 fi
 
 (cd "$ROOT/cloudflare" && npm install --silent "wrangler@__CLOUDFLARE_VERSION__")
-(cd "$ROOT/zapier" && npm install --silent "@zapier/zapier-sdk-cli@__ZAPIER_VERSION__")
+(cd "$ROOT/zapier" && npm install --silent "zapier-platform-cli@18.5.0")
 (cd "$ROOT/stripe" && npm install --silent "stripe@__STRIPE_SDK_VERSION__")
 
 cat > "$ROOT/bin/paperclip-cloudflare" <<'EOF'
@@ -77,7 +79,7 @@ mkdir -p /home/.paperclip
 ln -sfn "$ROOT" /home/.paperclip/provider-tooling
 
 /home/.paperclip/provider-tooling/cloudflare/node_modules/.bin/wrangler --version
-/home/.paperclip/provider-tooling/zapier/node_modules/.bin/zapier-sdk --version
+/home/.paperclip/provider-tooling/zapier/node_modules/.bin/zapier-platform --version
 /home/.paperclip/provider-tooling/bin/paperclip-stripe --company KUR whoami >/dev/null
 '@
 $scriptBody = $scriptBody.Replace('__REMOTE_ROOT__', $RemoteRoot).Replace('__CLOUDFLARE_VERSION__', $CloudflareVersion).Replace('__ZAPIER_VERSION__', $ZapierVersion).Replace('__STRIPE_SDK_VERSION__', $StripeSdkVersion)

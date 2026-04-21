@@ -131,9 +131,9 @@
     },
     "zapier": {
       "runtime": {
-        "tool": "@zapier/zapier-sdk-cli",
-        "version": "0.38.2",
-        "configMode": "copied-local-auth",
+        "tool": "zapier-platform-cli",
+        "version": "18.5.0",
+        "configMode": "copied-local-deploy-key",
         "availableCommandClasses": [
           "identity",
           "catalog",
