@@ -40,6 +40,7 @@ The copied Wrangler auth currently supports:
 - Browser write
 
 This means Cloudflare Email features are technically available in the governed runtime now. Treat that as capability, not blanket permission: email setup must still stay company-scoped and issue-backed.
+The guarded wrapper now allows `wrangler email ...` commands under the normal `read` / `write` classification for the companies that are allowed to use Cloudflare email.
 
 ## Company rules
 

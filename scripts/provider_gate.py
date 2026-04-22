@@ -26,10 +26,14 @@ def company_policy(policy: dict, provider: str, company: str):
 
 def classify_cloudflare(args: list[str]) -> str:
     joined = " ".join(args).lower()
-    if any(token in joined for token in ["email", "browser", "flagship", "artifact"]):
+    if any(token in joined for token in [" browser", " flagship", " artifact"]):
         return "unsupported"
     if any(token in joined for token in [" delete", " remove", " purge", " rollback", " teardown"]):
         return "destructive"
+    if args[:1] == ["email"]:
+        if any(token in joined for token in [" create", " put", " add", " enable", " disable", " update", " set", " issue", " configure"]):
+            return "write"
+        return "read"
     if args[:1] == ["whoami"]:
         return "identity"
     if any(token in joined for token in [" deploy", " publish", " apply", " create", " put", " secret", " migrate", " upload"]):
