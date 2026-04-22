@@ -33,24 +33,22 @@ The copied Wrangler auth currently supports:
 - Secrets Store write
 - AI and AI Search write/run
 - Zone read
+- Artifacts write
+- Flagship write
+- Email Routing write
+- Email Sending write
+- Browser write
 
-The copied auth does **not** currently include:
-
-- `email_routing:write`
-- `email_sending:write`
-- `browser:write`
-- `artifacts:write`
-- `flagship:write`
-
-Do not plan workflows that depend on those missing scopes until the token is refreshed and intentionally widened.
+This means Cloudflare Email features are technically available in the governed runtime now. Treat that as capability, not blanket permission: email setup must still stay company-scoped and issue-backed.
 
 ## Company rules
 
 Read `references/provider-governance.json` before use. The short version:
 
 - `PER`: no Cloudflare use
-- `KUR`, `GAT`, `LOV`, `EMD`, `TRT`, `AII`: scoped deploy/read use only for that company's own Workers/Pages/D1/Queues/secrets
-- `PAR`: shared platform admin scope, but still no destructive account-wide work without explicit approval
+- `KUR`: scoped deploy/read use only for Kurs infrastructure
+- `GAT`, `LOV`, `EMD`, `TRT`, `AII`: scoped deploy/read use for their own Workers/Pages/D1/Queues/secrets and company-owned Cloudflare email surfaces
+- `PAR`: shared platform admin scope, and the only company that should coordinate portfolio-level Cloudflare email setup work
 
 ## Allowed command classes
 
@@ -65,7 +63,8 @@ Read `references/provider-governance.json` before use. The short version:
 - DNS mutation
 - certificate mutation
 - connectivity-admin use
-- email-routing or browser features
+- account-wide email-routing experiments
+- browser features without an explicit operator issue
 
 ## Practical workflow
 
@@ -80,6 +79,7 @@ Read `references/provider-governance.json` before use. The short version:
 /home/.paperclip/provider-tooling/bin/paperclip-cloudflare --company KUR whoami
 /home/.paperclip/provider-tooling/bin/paperclip-cloudflare --company KUR pages project list
 /home/.paperclip/provider-tooling/bin/paperclip-cloudflare --company PAR d1 list
+/home/.paperclip/provider-tooling/bin/paperclip-cloudflare --company PAR email --help
 ```
 
 ## Approval triggers
@@ -90,4 +90,5 @@ Open or use an issue before:
 - deleting D1 data
 - rotating secrets in production
 - changing route bindings
+- enabling or changing Cloudflare Email Routing for a live company domain
 - using AI/AI-search features outside the company's explicit product surface

@@ -24,18 +24,17 @@
           "queues:write",
           "pipelines:write",
           "secrets_store:write",
+          "artifacts:write",
+          "flagship:write",
+          "email_routing:write",
+          "email_sending:write",
+          "browser:write",
           "containers:write",
           "cloudchamber:write",
           "connectivity:admin",
           "offline_access"
         ],
-        "missingScopes": [
-          "artifacts:write",
-          "flagship:write",
-          "email_routing:write",
-          "email_sending:write",
-          "browser:write"
-        ]
+        "missingScopes": []
       },
       "companies": {
         "PER": {
@@ -63,7 +62,8 @@
           "mode": "scoped",
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
-            "Deploy or inspect Gatareba Cloudflare workers and D1 resources only"
+            "Deploy or inspect Gatareba Cloudflare workers and D1 resources only",
+            "Set up and inspect Cloudflare Email Routing or Email Sending for Gatareba-owned domains and addresses"
           ],
           "forbiddenUsecases": [
             "No cross-company changes",
@@ -74,7 +74,8 @@
           "mode": "scoped",
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
-            "Deploy or inspect Lovkode app and worker infrastructure only"
+            "Deploy or inspect Lovkode app and worker infrastructure only",
+            "Set up and inspect Cloudflare Email Routing or Email Sending for Lovkode-owned domains and addresses"
           ],
           "forbiddenUsecases": [
             "No DNS, certificates, or zone changes without approval",
@@ -86,10 +87,11 @@
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
             "Operate shared deployment infrastructure, templates, Workers, Pages, D1, Queues, AI, and secrets for portfolio companies",
-            "Inspect Cloudflare account state for platform planning"
+            "Inspect Cloudflare account state for platform planning",
+            "Set up and inspect company-scoped Cloudflare Email Routing or Email Sending for portfolio domains when an operator issue exists"
           ],
           "forbiddenUsecases": [
-            "No email-routing or browser automation features because the token lacks those scopes",
+            "No account-wide email-routing or browser-automation experimentation without a dedicated approval issue",
             "No destructive account-wide cleanup without a dedicated approval issue",
             "No direct use of connectivity admin unless explicitly approved for a platform incident"
           ]
@@ -98,7 +100,8 @@
           "mode": "scoped",
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
-            "Operate EmDash sidecar Workers, Pages, D1, Queues, and secrets"
+            "Operate EmDash sidecar Workers, Pages, D1, Queues, and secrets",
+            "Set up and inspect Cloudflare Email Routing or Email Sending for EmDash-owned domains and addresses"
           ],
           "forbiddenUsecases": [
             "No cross-company deploys",
@@ -109,7 +112,8 @@
           "mode": "scoped",
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
-            "Operate TRT.ge Workers, Pages, D1, and secrets"
+            "Operate TRT.ge Workers, Pages, D1, and secrets",
+            "Set up and inspect Cloudflare Email Routing or Email Sending for TRT-owned domains and addresses"
           ],
           "forbiddenUsecases": [
             "No zone mutation without approval",
@@ -120,7 +124,8 @@
           "mode": "scoped",
           "allowedCommandClasses": ["identity", "read", "write"],
           "allowedUsecases": [
-            "Operate the AI Influencer & Spokesperson Company media edge and delivery surfaces"
+            "Operate the AI Influencer & Spokesperson Company media edge and delivery surfaces",
+            "Set up and inspect Cloudflare Email Routing or Email Sending for agency-owned domains and addresses"
           ],
           "forbiddenUsecases": [
             "No DNS or zone mutation without approval",

@@ -99,6 +99,11 @@ That sync helper:
    - `paperclip-zapier`
    - `paperclip-stripe`
 
+Current Cloudflare note:
+
+- the synced Wrangler auth now includes `email_routing:write`, `email_sending:write`, and `browser:write`
+- that makes Cloudflare Email features available in the governed Paperclip runtime, but they still need company-scoped setup and issue-backed use
+
 ## Design goals
 
 - preserve company boundaries
