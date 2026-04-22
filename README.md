@@ -24,6 +24,7 @@ This repo provides:
 - `paperclip-client-success-delivery`
 - `paperclip-performance-intelligence`
 - `paperclip-cloudflare-governor`
+- `paperclip-cloudflare-inbox-ops`
 - `paperclip-zapier-governor`
 - `paperclip-stripe-governor`
 

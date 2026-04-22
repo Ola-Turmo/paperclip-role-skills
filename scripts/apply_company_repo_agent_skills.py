@@ -5,7 +5,7 @@ from collections import OrderedDict
 import requests
 
 
-DEFAULT_BASE_URL = "http://vps-apimcp-site.tail928971.ts.net:13101"
+DEFAULT_BASE_URL = "http://176.118.198.76:13100"
 DEFAULT_REFERER = f"{DEFAULT_BASE_URL}/PAR/settings/agents"
 
 
@@ -83,24 +83,24 @@ ROLE_SKILL_ASSIGNMENTS = {
         ],
     },
     "Gatareba.ge": {
-        "CEO": ["gatareba-compliance-ops"],
-        "Operations Manager": ["gatareba-compliance-ops", "devops", "paperclip-cloudflare-governor", "paperclip-zapier-governor"],
+        "CEO": ["gatareba-compliance-ops", "paperclip-cloudflare-inbox-ops"],
+        "Operations Manager": ["gatareba-compliance-ops", "devops", "paperclip-cloudflare-governor", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
         "Finance & Risk Manager": ["gatareba-compliance-ops", "reviewer"],
-        "Product & Tech Manager": ["gatareba-compliance-ops", "backend-developer", "fullstack-developer", "reviewer", "paperclip-cloudflare-governor"],
-        "Customer Service Manager": ["gatareba-compliance-ops", "paperclip-zapier-governor"],
+        "Product & Tech Manager": ["gatareba-compliance-ops", "backend-developer", "fullstack-developer", "reviewer", "paperclip-cloudflare-governor", "paperclip-cloudflare-inbox-ops"],
+        "Customer Service Manager": ["gatareba-compliance-ops", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
         "Growth & Revenue Manager": ["growth-revenue-experiments", "gatareba-compliance-ops"],
     },
     "Lovkode.no": {
-        "CEO": ["lovkode-matter-platform", "scrutiny-feature-reviewer"],
-        "Operations Manager": ["lovkode-matter-platform", "infra-worker", "corpus-worker", "paperclip-cloudflare-governor", "paperclip-zapier-governor"],
+        "CEO": ["lovkode-matter-platform", "scrutiny-feature-reviewer", "paperclip-cloudflare-inbox-ops"],
+        "Operations Manager": ["lovkode-matter-platform", "infra-worker", "corpus-worker", "paperclip-cloudflare-governor", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
         "Finance & Risk Manager": ["lovkode-matter-platform", "scrutiny-feature-reviewer"],
-        "Product & Tech Manager": ["lovkode-matter-platform", "ai-workflow-worker", "backend-worker", "fullstack-worker", "screen-fidelity-worker", "paperclip-cloudflare-governor"],
-        "Customer Service Manager": ["lovkode-matter-platform", "humanize-klarsprak", "scrutiny-feature-reviewer"],
+        "Product & Tech Manager": ["lovkode-matter-platform", "ai-workflow-worker", "backend-worker", "fullstack-worker", "screen-fidelity-worker", "paperclip-cloudflare-governor", "paperclip-cloudflare-inbox-ops"],
+        "Customer Service Manager": ["lovkode-matter-platform", "humanize-klarsprak", "scrutiny-feature-reviewer", "paperclip-cloudflare-inbox-ops"],
     },
     "Parallel Company AI": {
-        "CEO": ["portfolio-repo-universe", "paperclip-cloudflare-governor", "paperclip-zapier-governor"],
-        "Operations Manager": ["portfolio-repo-universe", "paperclip-cloudflare-governor", "paperclip-zapier-governor"],
-        "Product & Tech Manager": ["portfolio-repo-universe", "paperclip-cloudflare-governor"],
+        "CEO": ["portfolio-repo-universe", "paperclip-cloudflare-governor", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
+        "Operations Manager": ["portfolio-repo-universe", "paperclip-cloudflare-governor", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
+        "Product & Tech Manager": ["portfolio-repo-universe", "paperclip-cloudflare-governor", "paperclip-cloudflare-inbox-ops"],
         "Growth & Revenue Manager": ["portfolio-repo-universe"],
         "Finance & Risk Manager": ["paperclip-stripe-governor"],
     },
@@ -113,12 +113,12 @@ ROLE_SKILL_ASSIGNMENTS = {
         "Finance & Risk Manager": ["paperclip-stripe-governor"],
     },
     "TRT.ge": {
-        "CEO": ["trt-ge-authority-growth"],
-        "Operations Manager": ["trt-ge-authority-growth", "paperclip-cloudflare-governor", "paperclip-zapier-governor"],
-        "Product & Tech Manager": ["trt-ge-authority-growth", "paperclip-cloudflare-governor"],
+        "CEO": ["trt-ge-authority-growth", "paperclip-cloudflare-inbox-ops"],
+        "Operations Manager": ["trt-ge-authority-growth", "paperclip-cloudflare-governor", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
+        "Product & Tech Manager": ["trt-ge-authority-growth", "paperclip-cloudflare-governor", "paperclip-cloudflare-inbox-ops"],
         "Growth & Revenue Manager": ["growth-revenue-experiments", "trt-ge-authority-growth", "paperclip-zapier-governor"],
         "Social & Media Manager": ["trt-ge-authority-growth"],
-        "Customer Service Manager": ["trt-ge-authority-growth", "paperclip-zapier-governor"],
+        "Customer Service Manager": ["trt-ge-authority-growth", "paperclip-zapier-governor", "paperclip-cloudflare-inbox-ops"],
     },
     "AI Influencer & Spokesperson Company": {
         "Agency CEO": ["agency-service-ops", "paperclip-finance-risk-review", "paperclip-cloudflare-governor", "paperclip-stripe-governor"],
@@ -144,6 +144,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
     parser.add_argument("--referer", default=DEFAULT_REFERER)
+    parser.add_argument("--email")
+    parser.add_argument("--password")
     parser.add_argument(
         "--summary-path",
         default=r"C:\Users\heial\Documents\Codex\2026-04-20-company-repo-skills-sync\agent-repo-skill-assignment-summary.json",
@@ -158,6 +160,18 @@ def main() -> int:
             "Content-Type": "application/json",
         }
     )
+
+    if args.email and args.password:
+        signin_resp = session.post(
+            f"{args.base_url}/api/auth/sign-in/email",
+            json={
+                "email": args.email,
+                "password": args.password,
+                "rememberMe": True,
+            },
+            timeout=60,
+        )
+        signin_resp.raise_for_status()
 
     companies_resp = session.get(f"{args.base_url}/api/companies", timeout=60)
     companies_resp.raise_for_status()
