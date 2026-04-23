@@ -13,202 +13,88 @@ DEFAULT_REPO_URL = "https://github.com/Ola-Turmo/paperclip-role-skills"
 DEFAULT_SSH_TARGET = "lovkode-vps"
 DEFAULT_CONTAINER = "compose-paperclip-1"
 
+HERMES_ADAPTER_TYPE = "hermes_local"
+HERMES_ADAPTER_CONFIG = {
+    "model": "MiniMax-M2.7",
+    "provider": "custom:minimax-token-plan",
+    "persistSession": True,
+    "env": {"HOME": "/home/.paperclip"},
+}
+
+ROLE_SKILLS = {
+    "CEO": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-ceo-control-tower",
+    ],
+    "Operations Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-operations-delivery",
+    ],
+    "Product & Tech Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-product-tech-builder",
+    ],
+    "Growth & Revenue Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-growth-revenue-ops",
+    ],
+    "Finance & Risk Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-finance-risk-review",
+    ],
+    "Customer Service Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-customer-service-triage",
+    ],
+    "People & Partners Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-people-partners-ops",
+    ],
+    "Social & Media Manager": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-social-media-command",
+    ],
+    "Agency CEO": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-ceo-control-tower",
+    ],
+    "Talent Studio Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-talent-studio-design",
+    ],
+    "Media Systems Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-product-tech-builder",
+    ],
+    "Service Operations Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-operations-delivery",
+    ],
+    "Disclosure & Rights Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-disclosure-rights-guard",
+    ],
+    "Client Success Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-client-success-delivery",
+    ],
+    "Growth Distribution Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-growth-revenue-ops",
+    ],
+    "Performance Intelligence Lead": [
+        "ola-turmo/paperclip-role-skills/paperclip-operator-core",
+        "ola-turmo/paperclip-role-skills/paperclip-performance-intelligence",
+    ],
+}
 
 ROLE_RUNTIME = {
-    "CEO": {
-        "adapterType": "codex_local",
-        "adapterConfig": {
-            "model": "gpt-5.4",
-            "modelReasoningEffort": "high",
-            "search": True,
-            "dangerouslyBypassApprovalsAndSandbox": True,
-            "extraArgs": ["--skip-git-repo-check"],
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-ceo-control-tower",
-        ],
-    },
-    "Operations Manager": {
-        "adapterType": "hermes_local",
-        "adapterConfig": {
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-operations-delivery",
-        ],
-    },
-    "Product & Tech Manager": {
-        "adapterType": "opencode_local",
-        "adapterConfig": {
-            "model": "openai/gpt-5.4",
-            "dangerouslySkipPermissions": True,
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-product-tech-builder",
-        ],
-    },
-    "Growth & Revenue Manager": {
-        "adapterType": "gemini_local",
-        "adapterConfig": {
-            "model": "gemini-2.5-pro",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-growth-revenue-ops",
-        ],
-    },
-    "Finance & Risk Manager": {
-        "adapterType": "codex_local",
-        "adapterConfig": {
-            "model": "gpt-5.4",
-            "modelReasoningEffort": "high",
-            "dangerouslyBypassApprovalsAndSandbox": True,
-            "extraArgs": ["--skip-git-repo-check"],
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-finance-risk-review",
-        ],
-    },
-    "Customer Service Manager": {
-        "adapterType": "pi_local",
-        "adapterConfig": {
-            "model": "minimax/MiniMax-M2.7",
-            "thinking": "low",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-customer-service-triage",
-        ],
-    },
-    "People & Partners Manager": {
-        "adapterType": "opencode_local",
-        "adapterConfig": {
-            "model": "anthropic/claude-sonnet-4-5",
-            "dangerouslySkipPermissions": True,
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-people-partners-ops",
-        ],
-    },
-    "Social & Media Manager": {
-        "adapterType": "gemini_local",
-        "adapterConfig": {
-            "model": "gemini-2.5-pro",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-social-media-command",
-        ],
-    },
-    "Agency CEO": {
-        "adapterType": "codex_local",
-        "adapterConfig": {
-            "model": "gpt-5.4",
-            "modelReasoningEffort": "high",
-            "search": True,
-            "dangerouslyBypassApprovalsAndSandbox": True,
-            "extraArgs": ["--skip-git-repo-check"],
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-ceo-control-tower",
-        ],
-    },
-    "Talent Studio Lead": {
-        "adapterType": "gemini_local",
-        "adapterConfig": {
-            "model": "gemini-2.5-pro",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-talent-studio-design",
-        ],
-    },
-    "Media Systems Lead": {
-        "adapterType": "opencode_local",
-        "adapterConfig": {
-            "model": "openai/gpt-5.4",
-            "dangerouslySkipPermissions": True,
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-product-tech-builder",
-        ],
-    },
-    "Service Operations Lead": {
-        "adapterType": "hermes_local",
-        "adapterConfig": {
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-operations-delivery",
-        ],
-    },
-    "Disclosure & Rights Lead": {
-        "adapterType": "codex_local",
-        "adapterConfig": {
-            "model": "gpt-5.4",
-            "modelReasoningEffort": "high",
-            "dangerouslyBypassApprovalsAndSandbox": True,
-            "extraArgs": ["--skip-git-repo-check"],
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-disclosure-rights-guard",
-        ],
-    },
-    "Client Success Lead": {
-        "adapterType": "pi_local",
-        "adapterConfig": {
-            "model": "minimax/MiniMax-M2.7",
-            "thinking": "low",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-client-success-delivery",
-        ],
-    },
-    "Growth Distribution Lead": {
-        "adapterType": "gemini_local",
-        "adapterConfig": {
-            "model": "gemini-2.5-pro",
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-growth-revenue-ops",
-        ],
-    },
-    "Performance Intelligence Lead": {
-        "adapterType": "opencode_local",
-        "adapterConfig": {
-            "model": "openai/gpt-5.4",
-            "dangerouslySkipPermissions": True,
-            "env": {"HOME": "/home/.paperclip"},
-        },
-        "desiredSkills": [
-            "ola-turmo/paperclip-role-skills/paperclip-operator-core",
-            "ola-turmo/paperclip-role-skills/paperclip-performance-intelligence",
-        ],
-    },
+    role_name: {
+        "adapterType": HERMES_ADAPTER_TYPE,
+        "adapterConfig": dict(HERMES_ADAPTER_CONFIG),
+        "desiredSkills": desired_skills,
+    }
+    for role_name, desired_skills in ROLE_SKILLS.items()
 }
 
 
@@ -230,23 +116,6 @@ def create_workspace_dir(ssh_target: str, container: str, company_id: str) -> st
         text=True,
     )
     return workspace_dir
-
-
-def seed_agent_runtime_home(ssh_target: str, agent_id: str) -> str:
-    agent_home = f"/home/.paperclip/instances/default/agent-homes/{agent_id}"
-    remote_cmd = (
-        f"mkdir -p {agent_home}/.gemini {agent_home}/.pi/agent {agent_home}/.opencode/skills && "
-        f"rsync -a --exclude history --exclude tmp /home/.paperclip/.gemini/ {agent_home}/.gemini/ >/dev/null 2>&1 || true && "
-        f"rsync -a --exclude skills --exclude sessions --exclude git --exclude fff /home/.paperclip/.pi/agent/ {agent_home}/.pi/agent/ >/dev/null 2>&1 || true && "
-        f"mkdir -p {agent_home}/.pi/agent/skills"
-    )
-    subprocess.run(
-        ["ssh", ssh_target, remote_cmd],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return agent_home
 
 
 def main() -> int:
@@ -324,13 +193,6 @@ def main() -> int:
                     "cwd": workspace_dir,
                 },
             }
-            if role_config["adapterType"] in {"gemini_local", "pi_local", "opencode_local"}:
-                agent_home = seed_agent_runtime_home(args.ssh_target, agent["id"])
-                env = {"HOME": agent_home}
-                if role_config["adapterType"] == "opencode_local":
-                    env["XDG_CONFIG_HOME"] = "/home/.paperclip/.config"
-                    env["XDG_DATA_HOME"] = "/home/.paperclip/.local/share"
-                patch_body["adapterConfig"]["env"] = env
             patch_resp = session.patch(
                 f"{args.base_url}/api/agents/{agent['id']}",
                 json=patch_body,
