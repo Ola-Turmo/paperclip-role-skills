@@ -125,7 +125,7 @@ def main() -> int:
     env["XDG_CONFIG_HOME"] = str(tool_root / "home" / ".config")
     env["APPDATA"] = str(tool_root / "home" / ".config")
     env["ZAPIER_SUPPRESS_DEPRECATION_WARNING"] = "1"
-    cli = tool_root / "node_modules" / ".bin" / "zapier-platform"
+    cli = tool_root / "node_modules" / ".bin" / "zapier-sdk"
     result = subprocess.run([str(cli), *command], env=env)
     return result.returncode
 

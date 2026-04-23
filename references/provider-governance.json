@@ -136,9 +136,9 @@
     },
     "zapier": {
       "runtime": {
-        "tool": "zapier-platform-cli",
-        "version": "18.5.0",
-        "configMode": "copied-local-deploy-key",
+        "tool": "zapier-sdk-cli",
+        "version": "0.38.2",
+        "configMode": "copied-local-sdk-oauth",
         "availableCommandClasses": [
           "identity",
           "catalog",
@@ -194,25 +194,27 @@
       "companies": {
         "PER": {
           "mode": "scoped",
-          "allowedCommandClasses": ["identity", "catalog", "connection-read"],
+          "allowedCommandClasses": ["identity", "catalog", "connection-read", "action-run"],
           "allowedUsecases": [
             "Review available apps and existing Zapier connections for Personal",
+            "Run Gmail and Google Calendar actions for the connected Personal Google account",
             "Design Gmail, Google Calendar, Sheets, and Notion automations before implementation"
           ],
           "forbiddenUsecases": [
-            "No direct run-action against live systems",
+            "No non-Google live mutations from Personal",
             "No payments or publishing workflows",
             "No shared Zapier tables as a source of truth"
           ]
         },
         "KUR": {
           "mode": "scoped",
-          "allowedCommandClasses": ["identity", "catalog", "connection-read"],
+          "allowedCommandClasses": ["identity", "catalog", "connection-read", "action-run"],
           "allowedUsecases": [
+            "Run Gmail actions for the connected operational Google account handling Kurs mail",
             "Design support, lead-capture, Sheets, Gmail, and Stripe-triggered automations"
           ],
           "forbiddenUsecases": [
-            "No direct run-action against live student/customer systems until company-specific Zapier connection issues are complete",
+            "No non-Gmail live mutations against student/customer systems from Kurs.ing",
             "No refunds, entitlements, or pricing changes via Zapier"
           ]
         },

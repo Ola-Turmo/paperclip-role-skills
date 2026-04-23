@@ -47,7 +47,7 @@ if [ ! -f "$ROOT/stripe/package.json" ]; then
 fi
 
 (cd "$ROOT/cloudflare" && npm install --silent "wrangler@__CLOUDFLARE_VERSION__")
-(cd "$ROOT/zapier" && npm install --silent "zapier-platform-cli@18.5.0")
+(cd "$ROOT/zapier" && npm install --silent "@zapier/zapier-sdk-cli@__ZAPIER_VERSION__")
 (cd "$ROOT/stripe" && npm install --silent "stripe@__STRIPE_SDK_VERSION__")
 
 cat > "$ROOT/bin/paperclip-cloudflare" <<'EOF'
@@ -79,7 +79,7 @@ mkdir -p /home/.paperclip
 ln -sfn "$ROOT" /home/.paperclip/provider-tooling
 
 /home/.paperclip/provider-tooling/cloudflare/node_modules/.bin/wrangler --version
-/home/.paperclip/provider-tooling/zapier/node_modules/.bin/zapier-platform --version
+/home/.paperclip/provider-tooling/zapier/node_modules/.bin/zapier-sdk --version
 /home/.paperclip/provider-tooling/bin/paperclip-stripe --company KUR whoami >/dev/null
 '@
 $scriptBody = $scriptBody.Replace('__REMOTE_ROOT__', $RemoteRoot).Replace('__CLOUDFLARE_VERSION__', $CloudflareVersion).Replace('__ZAPIER_VERSION__', $ZapierVersion).Replace('__STRIPE_SDK_VERSION__', $StripeSdkVersion)
