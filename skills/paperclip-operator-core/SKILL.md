@@ -1,6 +1,6 @@
 ---
 name: paperclip-operator-core
-description: Base operating discipline for Paperclip company managers: company scope, connectors, approvals, evidence, and execution hygiene.
+description: "Base operating discipline for Paperclip company managers: company scope, connectors, approvals, evidence, and execution hygiene."
 ---
 
 # Paperclip Operator Core
